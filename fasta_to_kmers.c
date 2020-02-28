@@ -17,6 +17,8 @@ static struct argp_option options[] = {
  
   {"output",   'o', "FILE", 0,
    "Output to FILE instead of standard output" },
+    {"input",   'i', "FILE", 0,
+   "Input file for the DNA patterns" },
    {"kmer",   'k', "COUNT", OPTION_ARG_OPTIONAL,
    "kmer size the program  (default 10)"},
   { 0 }
@@ -26,6 +28,7 @@ static struct argp_option options[] = {
 struct arguments
 {
   char *output_file;
+  char *input_file;
   int kmer_size;             /* count arg for kmer size */
 };
 
@@ -43,6 +46,11 @@ parse_opt (int key, char *arg, struct argp_state *state)
     case 'o':
       arguments->output_file = arg;
       break;
+
+      case 'i':
+      arguments->input_file = arg;
+      break;
+
 
       case 'k':
       arguments->kmer_size = arg ? atoi (arg) : 10;
@@ -66,6 +74,7 @@ int main(int argc, char *argv[])
 
   /* Default values. */
   arguments.output_file = "-";
+  arguments.input_file = "-";
   arguments.kmer_size = 10;
 
   /* Parse our arguments; every option seen by parse_opt will
@@ -73,8 +82,8 @@ int main(int argc, char *argv[])
   argp_parse (&argp, argc, argv, 0, 0, &arguments);
 for (int i = 0; i <= arguments.kmer_size; i++)
 {
-   printf ("OUTPUT_FILE = %s\n",
-          arguments.output_file);
+   printf ("OUTPUT_FILE = %s\nINPUT FILE = %s",
+          arguments.output_file,arguments.input_file);
 }
 
  
