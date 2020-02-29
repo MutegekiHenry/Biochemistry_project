@@ -78,6 +78,10 @@ int main(int argc, char *argv[])
   arguments.input_file = "-";
   arguments.kmer_size = 10;
 
+  char *keys[7];
+  char *values[18];
+  int i=0;
+
   /* Parse our arguments; every option seen by parse_opt will
      be reflected in arguments. */
   argp_parse (&argp, argc, argv, 0, 0, &arguments);
@@ -98,11 +102,18 @@ FILE *fp = fopen("genes.fa", "r");
 
             if(strchr(chunk, '>') != NULL) //checks if the line has an '>' character
         {
-          fputs(chunk, stdout);
+          keys[i]=chunk;
+          fputs(keys[i], stdout);
          fputs("|*\n", stdout);  // marker string used to show where the content of the chunk array has ended
          
+        }else
+        {
+           values[i]=chunk;
+           fputs(values[i], stdout);
+           fputs("|*\n", stdout);
         }
-         
+        
+        i++; 
      }
  
      fclose(fp);
