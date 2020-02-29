@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <error.h>
+#include <string.h>
 
 const char *argp_program_version = "fasta_to_kmers 1.0";
 const char *argp_program_bug_address ="<lubegaritah@gmail.com>";
@@ -80,11 +81,32 @@ int main(int argc, char *argv[])
   /* Parse our arguments; every option seen by parse_opt will
      be reflected in arguments. */
   argp_parse (&argp, argc, argv, 0, 0, &arguments);
-for (int i = 0; i <= arguments.kmer_size; i++)
-{
-   printf ("OUTPUT_FILE = %s\nINPUT FILE = %s",
-          arguments.output_file,arguments.input_file);
-}
+// for (int i = 0; i <= arguments.kmer_size; i++)
+// {
+//    printf ("OUTPUT_FILE = %s\nINPUT FILE = %s",
+//           arguments.output_file,arguments.input_file);
+// }
+
+
+FILE *fp = fopen("genes.fa", "r");
+      if(fp == NULL) {
+         perror("Unable to open file!");
+         exit(1);
+     }
+     char chunk[128];
+     while(fgets(chunk, sizeof(chunk), fp) != NULL) {
+
+            if(strchr(chunk, '>') != NULL) //checks if the line has an '>' character
+        {
+          fputs(chunk, stdout);
+         fputs("|*\n", stdout);  // marker string used to show where the content of the chunk array has ended
+         
+        }
+         
+     }
+ 
+     fclose(fp);
+  
 
  
   exit (0);
